@@ -4,6 +4,10 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Grupo;
+
 /**
  *
  * @author conta
@@ -19,6 +23,38 @@ public class telaPrincipal extends javax.swing.JFrame {
     public telaPrincipal() {
         initComponents();
         configurarMenu();
+        atualizarTabelaGrupos();
+        
+        tblGrupos.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                atualizarQuantidadePublicadores();
+            }
+        });
+    }
+    
+    private void atualizarTabelaGrupos() {
+        DefaultTableModel model = (DefaultTableModel) tblGrupos.getModel();
+        model.setRowCount(0); //Limpa a tabela
+        
+        for (Grupo g : Grupo.listarGrupos()) {
+            model.addRow(new Object[]{
+                "Grupo " + g.getNumeroGrupo()
+                //g.getPublicadores.size() - implementar mais tarde
+            });
+        }
+    }
+    
+    private void atualizarQuantidadePublicadores() {
+        int linha = tblGrupos.getSelectedRow();
+        
+        if (linha != -1) {
+            Grupo g = Grupo.listarGrupos().get(linha);
+            int quantidade = g.listarPublicadores().size();
+            
+            lblQuantidadePublicadores.setText(quantidade + " Pessoas");
+        } else {
+            lblQuantidadePublicadores.setText("0 Pessoas");
+        }
     }
     
 
@@ -88,7 +124,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         tblGrupos = new javax.swing.JTable();
         jPanel13 = new PainelArredondado(30);
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblQuantidadePublicadores = new javax.swing.JLabel();
         jTextField1 = new TextFieldArredondado(8);
         jButton2 = new BotaoArredondado("Adicionar Publicador");
         jPanel14 = new PainelArredondado(30);
@@ -677,8 +713,8 @@ public class telaPrincipal extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Grupo 1");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("0 pessoas");
+        lblQuantidadePublicadores.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblQuantidadePublicadores.setText("0 pessoas");
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -695,7 +731,7 @@ public class telaPrincipal extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(lblQuantidadePublicadores))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -707,7 +743,7 @@ public class telaPrincipal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addComponent(lblQuantidadePublicadores)
                 .addContainerGap(8, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -919,11 +955,28 @@ public class telaPrincipal extends javax.swing.JFrame {
     }
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        Grupo g = new Grupo();
+        
+        // exemplo: número automático
+        g.setNumeroGrupo(Grupo.listarGrupos().size() + 1);
+        
+        // Cria o grupo
+        g.criarGrupo();
+        
+        //Atualiza a tabela
+        atualizarTabelaGrupos();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        int linhaSelecionada = tblGrupos.getSelectedRow();
+        
+        if (linhaSelecionada != -1) {
+            Grupo g = new Grupo().listarGrupos().get(linhaSelecionada);
+            g.excluirGrupo();
+            atualizarTabelaGrupos();
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um grupo para remover.");
+        }     
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -985,7 +1038,6 @@ public class telaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1019,6 +1071,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextPane jTextPane2;
+    private javax.swing.JLabel lblQuantidadePublicadores;
     private javax.swing.JPanel pnlGrupos;
     private javax.swing.JPanel pnlPublicador;
     private javax.swing.JPanel pnlRelatorio;

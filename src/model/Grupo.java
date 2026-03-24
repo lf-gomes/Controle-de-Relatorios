@@ -53,7 +53,9 @@ public class Grupo {
      * @param publicador 
      */
     public void adicionarPublicador(Publicador publicador) {
-        listaPublicadores.add(publicador);
+        if (publicador != null && !listaPublicadores.contains(publicador)) {
+            listaPublicadores.add(publicador);
+        }
     }
     
     /**
