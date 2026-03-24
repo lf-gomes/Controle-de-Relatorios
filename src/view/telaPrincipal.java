@@ -714,7 +714,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jLabel2.setText("Grupo 1");
 
         lblQuantidadePublicadores.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblQuantidadePublicadores.setText("0 pessoas");
+        lblQuantidadePublicadores.setText("0 Pessoas");
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -971,7 +971,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         int linhaSelecionada = tblGrupos.getSelectedRow();
         
         if (linhaSelecionada != -1) {
-            Grupo g = new Grupo().listarGrupos().get(linhaSelecionada);
+            Grupo g = Grupo.listarGrupos().get(linhaSelecionada);
             g.excluirGrupo();
             atualizarTabelaGrupos();
         } else {
