@@ -7,6 +7,7 @@ package view;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Grupo;
+import model.Publicador;
 
 /**
  *
@@ -25,9 +26,19 @@ public class telaPrincipal extends javax.swing.JFrame {
         configurarMenu();
         atualizarTabelaGrupos();
         
-        tblGrupos.getSelectionModel().addListSelectionListener(e -> {
+       tblGrupos.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
+
+                int linha = tblGrupos.getSelectedRow();
+                
+                if (linha == -1) return;
+                if (Grupo.listarGrupos().isEmpty()) return;
+                if (linha >= Grupo.listarGrupos().size()) return;
+                
+                Grupo g = Grupo.listarGrupos().get(linha);
+
                 atualizarQuantidadePublicadores();
+                atualizarTabelaPublicadores(g);
             }
         });
     }
@@ -44,12 +55,29 @@ public class telaPrincipal extends javax.swing.JFrame {
         }
     }
     
+    private void atualizarTabelaPublicadores(Grupo grupo) {
+        DefaultTableModel model = (DefaultTableModel) tblPublicadores.getModel();
+        model.setRowCount(0); //Limpa a tabela
+        
+        for (Publicador p : grupo.getPublicadores()) {
+            model.addRow(new Object[]{
+                p.getNome(),
+                p.getTipo(),
+                p.getSituacao()
+            });   
+        }
+        
+        // Forçar atualização visual
+        //tblPublicadores.revalidate();
+        //tblPublicadores.repaint();
+    }
+    
     private void atualizarQuantidadePublicadores() {
         int linha = tblGrupos.getSelectedRow();
         
         if (linha != -1) {
             Grupo g = Grupo.listarGrupos().get(linha);
-            int quantidade = g.listarPublicadores().size();
+            int quantidade = g.getPublicadores().size();
             
             lblQuantidadePublicadores.setText(quantidade + " Pessoas");
         } else {
@@ -129,11 +157,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         jButton2 = new BotaoArredondado("Adicionar Publicador");
         jPanel14 = new PainelArredondado(30);
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblPublicadores = new javax.swing.JTable();
         jPanel15 = new javax.swing.JPanel();
         jButton1 = new BotaoArredondado("Cria Grupo");
-        jButton7 = new BotaoArredondado("Adicionar Publicador");
-        jButton8 = new BotaoArredondado("Adicionar Publicador");
+        btnRemoverPublicador = new BotaoArredondado("Adicionar Publicador");
+        btnAdicionarPublicador = new BotaoArredondado("Adicionar Publicador");
         jButton5 = new BotaoArredondado("Excluir Grupo");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -682,11 +710,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         tblGrupos.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         tblGrupos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Grupo 1"},
-                {"Grupo 2"},
-                {"Grupo 3"},
-                {"Grupo 4"},
-                {"Grupo 5"}
+
             },
             new String [] {
                 "GRUPOS:"
@@ -755,9 +779,10 @@ public class telaPrincipal extends javax.swing.JFrame {
         jPanel14.setBackground(new java.awt.Color(255, 255, 255));
         jPanel14.setPreferredSize(new java.awt.Dimension(498, 60));
 
-        jTable2.setBackground(new java.awt.Color(255, 255, 255));
-        jTable2.setForeground(new java.awt.Color(255, 255, 255));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblPublicadores.setBackground(new java.awt.Color(255, 255, 255));
+        tblPublicadores.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblPublicadores.setForeground(new java.awt.Color(0, 0, 0));
+        tblPublicadores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -765,7 +790,8 @@ public class telaPrincipal extends javax.swing.JFrame {
                 "Nome", "Modalidade", "Situação"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        tblPublicadores.setRowHeight(30);
+        jScrollPane2.setViewportView(tblPublicadores);
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -796,18 +822,23 @@ public class telaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setBackground(new java.awt.Color(0, 102, 255));
-        jButton7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("- Publicador");
-
-        jButton8.setBackground(new java.awt.Color(0, 102, 255));
-        jButton8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("+Publicador");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        btnRemoverPublicador.setBackground(new java.awt.Color(0, 102, 255));
+        btnRemoverPublicador.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnRemoverPublicador.setForeground(new java.awt.Color(255, 255, 255));
+        btnRemoverPublicador.setText("- Publicador");
+        btnRemoverPublicador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                btnRemoverPublicadorActionPerformed(evt);
+            }
+        });
+
+        btnAdicionarPublicador.setBackground(new java.awt.Color(0, 102, 255));
+        btnAdicionarPublicador.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAdicionarPublicador.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdicionarPublicador.setText("+Publicador");
+        btnAdicionarPublicador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarPublicadorActionPerformed(evt);
             }
         });
 
@@ -831,9 +862,9 @@ public class telaPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
                 .addGap(18, 18, 18)
-                .addComponent(jButton8)
+                .addComponent(btnAdicionarPublicador)
                 .addGap(18, 18, 18)
-                .addComponent(jButton7)
+                .addComponent(btnRemoverPublicador)
                 .addGap(47, 47, 47))
         );
         jPanel15Layout.setVerticalGroup(
@@ -841,8 +872,8 @@ public class telaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7)
-                    .addComponent(jButton8)
+                    .addComponent(btnRemoverPublicador)
+                    .addComponent(btnAdicionarPublicador)
                     .addComponent(jButton5)
                     .addComponent(jButton1))
                 .addContainerGap(20, Short.MAX_VALUE))
@@ -979,9 +1010,48 @@ public class telaPrincipal extends javax.swing.JFrame {
         }     
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+    private void btnAdicionarPublicadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarPublicadorActionPerformed
+        int linhaGrupo = tblGrupos.getSelectedRow();
+        
+        if (linhaGrupo == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um grupo primeiro");
+            return;
+        }
+        
+        Grupo g = Grupo.listarGrupos().get(linhaGrupo);
+        
+        // Criando publicador
+        Publicador p = new Publicador();
+        p.setNome("Luís");
+        p.setSituacao("Ativo");
+        
+        g.adicionarPublicador(p);
+        
+        atualizarTabelaPublicadores(g);
+        atualizarQuantidadePublicadores();
+    }//GEN-LAST:event_btnAdicionarPublicadorActionPerformed
+
+    private void btnRemoverPublicadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverPublicadorActionPerformed
+        int linhaGrupo = tblGrupos.getSelectedRow();
+        int linhaPublicador = tblPublicadores.getSelectedRow();
+
+        if (linhaGrupo == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um grupo.");
+            return;
+        }
+
+        if (linhaPublicador == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um publicador.");
+            return;
+        }
+
+        Grupo g = Grupo.listarGrupos().get(linhaGrupo);
+
+        g.removerPublicador(linhaPublicador);
+
+        atualizarTabelaPublicadores(g);
+        atualizarQuantidadePublicadores();
+    }//GEN-LAST:event_btnRemoverPublicadorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1009,14 +1079,14 @@ public class telaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdicionarPublicador;
+    private javax.swing.JButton btnRemoverPublicador;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1065,7 +1135,6 @@ public class telaPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -1077,5 +1146,6 @@ public class telaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel pnlRelatorio;
     private javax.swing.JTabbedPane tbdMenu;
     private javax.swing.JTable tblGrupos;
+    private javax.swing.JTable tblPublicadores;
     // End of variables declaration//GEN-END:variables
 }

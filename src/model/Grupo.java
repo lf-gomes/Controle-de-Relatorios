@@ -62,15 +62,17 @@ public class Grupo {
      * Removeu um publicador do grupo
      * @param publicador 
      */
-    public void removerPublicador(Publicador publicador) {
-        listaPublicadores.remove(publicador);
+    public void removerPublicador(int index) {
+        if (index >= 0 && index < listaPublicadores.size()) {
+            listaPublicadores.remove(index);
+        } 
     }
     
     /**
      * Exine a lista de publicadores cadastrado no grupo
      * @return 
      */
-    public static List<Publicador> listarPublicadores() {
+    public static List<Publicador> getPublicadores() {
         return listaPublicadores;
     }
     

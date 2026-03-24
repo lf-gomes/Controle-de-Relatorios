@@ -11,6 +11,7 @@ import java.util.List;
 public class Publicador {
     private String nome;
     private String grupo;
+    private String situacao;
     private boolean participou;
     private Pioneiro tipo;
     private int quantidadeEstudos;
@@ -24,11 +25,13 @@ public class Publicador {
     public Publicador(
             String nome,
             String grupo,
+            String situacao,
             boolean participou,
             Pioneiro tipo,
             int quantidadeEstudos) {
         this.nome = nome;
         this.grupo = grupo;
+        this.situacao = situacao;
         this.participou = participou;
         this.tipo = tipo;
         this.quantidadeEstudos = quantidadeEstudos;
@@ -48,6 +51,14 @@ public class Publicador {
 
     public void setGrupo(String grupo) {
         this.grupo = grupo;
+    }
+    
+    public String getSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
     }
 
     public boolean isParticipacao() {

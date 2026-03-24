@@ -16,6 +16,32 @@ public class Pioneiro {
         this.obervacao = obervacao;
     }
 
+    public String getTipoPioneiro() {
+        return tipoPioneiro;
+    }
+
+    public void setTipoPioneiro(String tipoPioneiro) {
+        this.tipoPioneiro = tipoPioneiro;
+    }
+
+    public int getHoras() {
+        return horas;
+    }
+
+    public void setHoras(int horas) {
+        this.horas = horas;
+    }
+
+    public String getObervacao() {
+        return obervacao;
+    }
+
+    public void setObervacao(String obervacao) {
+        this.obervacao = obervacao;
+    }
+    
+    
+
     public static String exibirTipo() {
         return null;
     }
