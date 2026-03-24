@@ -11,7 +11,7 @@ import java.util.List;
 public class Grupo {
     private int numeroGrupo = 0;
     
-    private static List<Publicador> listaPublicadores = new ArrayList<>();
+    private List<Publicador> listaPublicadores = new ArrayList<>();
     
     private static List<Grupo> listaGrupos = new ArrayList<>();
 
@@ -72,7 +72,7 @@ public class Grupo {
      * Exine a lista de publicadores cadastrado no grupo
      * @return 
      */
-    public static List<Publicador> getPublicadores() {
+    public List<Publicador> getPublicadores() {
         return listaPublicadores;
     }
     
