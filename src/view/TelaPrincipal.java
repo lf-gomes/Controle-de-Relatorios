@@ -1020,7 +1020,13 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     }
     
     public void buscarPublicador() {
-        String busca = txtBusca.getText();
+        
+        if (grupoSelecionado == null) {
+            JOptionPane.showMessageDialog(null, "Selecione um grupo primeiro");
+            return;
+        }
+        
+        String busca = txtBusca.getText().toLowerCase();
         
         if (busca.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Informe um nome para buscar");

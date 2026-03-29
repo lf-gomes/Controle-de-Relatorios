@@ -195,7 +195,7 @@ public class PublicadorVIEW extends javax.swing.JFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         String nomePublicador = txtNomePublicador.getText();
         String modalidadeServico = cbModalidade.getSelectedItem().toString();
-        String ativo = "Não";
+        String ativo;
         String grupo = cbGrupo.getSelectedItem().toString();
         
         if (cbGrupo.getSelectedItem()==null) {
@@ -203,8 +203,18 @@ public class PublicadorVIEW extends javax.swing.JFrame {
             return;
         }
         
+        if (rbtNao.isSelected()) {
+            ativo = "Não";
+        } else {
+            ativo = "Sim";
+        }
+        
         telaPrincipal.adicionarNaTabela(nomePublicador, modalidadeServico, ativo, grupo);
-        this.dispose();
+        JOptionPane.showMessageDialog(null, "Publicador adicionado com sucesso");
+        
+        txtNomePublicador.setText("");
+        cbModalidade.setSelectedIndex(0);
+        
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
