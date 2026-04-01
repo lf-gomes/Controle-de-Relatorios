@@ -94,7 +94,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblPublicadorGeral = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         rbtSim = new javax.swing.JRadioButton();
@@ -331,7 +331,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblPublicadorGeral.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -354,9 +354,9 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable3);
-        if (jTable3.getColumnModel().getColumnCount() > 0) {
-            jTable3.getColumnModel().getColumn(0).setResizable(false);
+        jScrollPane3.setViewportView(tblPublicadorGeral);
+        if (tblPublicadorGeral.getColumnModel().getColumnCount() > 0) {
+            tblPublicadorGeral.getColumnModel().getColumn(0).setResizable(false);
         }
 
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Relatar"));
@@ -747,15 +747,35 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCriarGrupoActionPerformed
 
     private void btnExcluirGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirGrupoActionPerformed
-        int linhaSelecionada = tblGrupos.getSelectedRow();
         
-        if (linhaSelecionada != -1) {
-            Grupo g = Grupo.listarGrupos().get(linhaSelecionada);
-            g.excluirGrupo();
-            atualizarTabelaGrupos();
-        } else {
+        int linhaSelecionada = tblGrupos.getSelectedRow();
+        if (linhaSelecionada==-1) {
             JOptionPane.showMessageDialog(null, "Selecione um grupo para remover.");
-        }     
+            return;
+        }
+        
+        int confirmacao = JOptionPane.showConfirmDialog(
+            null,
+            "Tem certeza que deseja excluir este grupo?\nTodos os publicadores também serão removidos.",
+            "Confirmação",
+            JOptionPane.YES_NO_OPTION);
+        
+        if (confirmacao!=JOptionPane.YES_OPTION) {
+            return;
+        }
+        
+        Grupo g = Grupo.listarGrupos().get(linhaSelecionada);
+        
+        // Remove os publicadores vinculados
+        listaPublicadores.removeIf(p -> p[3].equals(grupoSelecionado)); 
+        
+        // Remove o Grupo
+        g.excluirGrupo(); 
+        
+        // Atualiza todas as tabelas
+        atualizarTabelaGrupos();
+        atualizarTabelaPublicadores();
+        atualizarTabelaPublicadoresGeral();
     }//GEN-LAST:event_btnExcluirGrupoActionPerformed
 
     private void btnAdicionarPublicadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarPublicadorActionPerformed
@@ -854,7 +874,6 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lblContador;
@@ -873,6 +892,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbtNao;
     private javax.swing.JRadioButton rbtSim;
     private javax.swing.JTable tblGrupos;
+    private javax.swing.JTable tblPublicadorGeral;
     private javax.swing.JTable tblPublicadores;
     private javax.swing.JTextField txtEstudos;
     private javax.swing.JTextField txtHoras;
@@ -932,7 +952,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     
     public void atualizarTabelaConsolidada() {
 
-        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+        DefaultTableModel model = (DefaultTableModel) tblPublicadorGeral.getModel();
         model.setRowCount(0);
 
         for (Object[] p : listaPublicadores) {
@@ -952,6 +972,18 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                 r.getNomePublicador(),
                 r.getGrupo(),
             });
+        }
+    }
+    
+    public void atualizarTabelaPublicadoresGeral() {
+        DefaultTableModel model = (DefaultTableModel) tblPublicadorGeral.getModel();
+        model.setRowCount(0); // limpa as linhas
+        
+        for (Object[] p : listaPublicadores) {
+            model.addRow(new Object[]{
+                p[0] // somente o nome
+            });
+            
         }
     }
     
@@ -1012,6 +1044,15 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Método responsável por atualizar as tabelas
+     * sempre que algo for adicionado um novo dado
+     * 
+     * @param nomePublicador
+     * @param modalidade
+     * @param ativo
+     * @param grupo 
+     */
     public void adicionarNaTabela(String nomePublicador, String modalidade, String ativo, String grupo) {
         listaPublicadores.add(new Object[]{
             nomePublicador,
@@ -1020,6 +1061,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
             grupo});
         
         atualizarTabelaPublicadores();
+        atualizarTabelaPublicadoresGeral();
     }
     
     public List<String> getListaGrupos() {
