@@ -10,10 +10,12 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Grupo;
 import model.Relatorio;
+import service.ExcelService;
 
 /**
  *
@@ -87,7 +89,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jButton9 = new javax.swing.JButton();
+        btnSalvarExcel = new javax.swing.JButton();
         pnlRelatar = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
@@ -110,8 +112,8 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         lblNumeroGrupo = new javax.swing.JLabel();
         lblQuantidadePublicadores = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        txtBuscarPublicadorG = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
         btnRemoverPublicador = new javax.swing.JButton();
         btnAdicionarPublicador = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -227,6 +229,11 @@ public final class TelaPrincipal extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton1.setText("Ir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTable2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
@@ -256,8 +263,13 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         jTable2.setRowHeight(30);
         jScrollPane2.setViewportView(jTable2);
 
-        jButton9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton9.setText("Salvar no Excel");
+        btnSalvarExcel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSalvarExcel.setText("Salvar no Excel");
+        btnSalvarExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarExcelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlRelatorioLayout = new javax.swing.GroupLayout(pnlRelatorio);
         pnlRelatorio.setLayout(pnlRelatorioLayout);
@@ -270,7 +282,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                     .addGroup(pnlRelatorioLayout.createSequentialGroup()
                         .addGroup(pnlRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlRelatorioLayout.createSequentialGroup()
-                                .addComponent(jButton9)
+                                .addComponent(btnSalvarExcel)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jScrollPane2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -290,7 +302,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton9)
+                    .addComponent(btnSalvarExcel)
                     .addComponent(jButton1))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
@@ -489,10 +501,15 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         lblQuantidadePublicadores.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblQuantidadePublicadores.setText("Pessoas");
 
-        jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtBuscarPublicadorG.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton4.setText("Pesquisar");
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnBuscar.setText("Pesquisar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         btnRemoverPublicador.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnRemoverPublicador.setText("Remover");
@@ -520,9 +537,9 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(lblNumeroGrupo)
                     .addComponent(lblQuantidadePublicadores))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtBuscarPublicadorG, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addComponent(btnBuscar)
                 .addGap(18, 18, 18)
                 .addComponent(btnAdicionarPublicador)
                 .addGap(4, 4, 4)
@@ -540,8 +557,8 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4)
+                            .addComponent(txtBuscarPublicadorG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscar)
                             .addComponent(btnRemoverPublicador)
                             .addComponent(btnAdicionarPublicador))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -668,6 +685,11 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         mnArquivo.setText("Arquivo");
 
         mniJwHub.setText("Abrir JW Hub");
+        mniJwHub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniJwHubActionPerformed(evt);
+            }
+        });
         mnArquivo.add(mniJwHub);
 
         mniVisualizar.setText("Visualizar");
@@ -679,6 +701,11 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         mnArquivo.add(mniVisualizar);
 
         mniSalvar.setText("Salvar");
+        mniSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniSalvarActionPerformed(evt);
+            }
+        });
         mnArquivo.add(mniSalvar);
 
         jMenuBar1.add(mnArquivo);
@@ -686,10 +713,20 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         mnConfiguracoes.setText("Configurações");
 
         jMenuItem2.setText("Alterar data da entrega");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         mnConfiguracoes.add(jMenuItem2);
         mnConfiguracoes.add(jSeparator1);
 
         jMenuItem5.setText("Tamanho do texto");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         mnConfiguracoes.add(jMenuItem5);
 
         jMenuBar1.add(mnConfiguracoes);
@@ -731,6 +768,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
 
     private void mniVisualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVisualizarActionPerformed
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Será implementado futuramente");
     }//GEN-LAST:event_mniVisualizarActionPerformed
 
     private void btnCriarGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCriarGrupoActionPerformed
@@ -833,6 +871,63 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         atualizarTabelaPublicadores();
     }//GEN-LAST:event_tblGruposMouseClicked
 
+    private void mniJwHubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniJwHubActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Será implementado futuramente");
+    }//GEN-LAST:event_mniJwHubActionPerformed
+
+    private void mniSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSalvarActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Eu já disse que será implementa... Esquece!");
+    }//GEN-LAST:event_mniSalvarActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Aguarde por atualizações futuras");
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Aguarde por atualizações futuras");
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        buscarPublicador();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnSalvarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarExcelActionPerformed
+        
+        JFileChooser fileChooser = new JFileChooser();
+        
+        fileChooser.setDialogTitle("Salvar Relatório");
+
+        fileChooser.setSelectedFile(new java.io.File("relatorio.xlsx"));
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+
+            String caminho = fileChooser.getSelectedFile().getAbsolutePath();
+
+            // Garante extensão .xlsx
+            if (!caminho.endsWith(".xlsx")) {
+                caminho += ".xlsx";
+            }
+
+            try {
+                ExcelService.gerarModelo(caminho);
+                JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso!");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnSalvarExcelActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showConfirmDialog(null, "Aguarde versões futuras");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -860,15 +955,15 @@ public final class TelaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarPublicador;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCriarGrupo;
     private javax.swing.JButton btnExcluirGrupo;
     private javax.swing.JButton btnRemoverPublicador;
+    private javax.swing.JButton btnSalvarExcel;
     private javax.swing.JComboBox<String> cbxModalidade;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
@@ -895,7 +990,6 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lblContador;
     private javax.swing.JLabel lblDataEntrega;
     private javax.swing.JLabel lblMesAtual;
@@ -914,6 +1008,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTable tblGrupos;
     private javax.swing.JTable tblPublicadorGeral;
     private javax.swing.JTable tblPublicadores;
+    private javax.swing.JTextField txtBuscarPublicadorG;
     private javax.swing.JTextField txtEstudos;
     private javax.swing.JTextField txtHoras;
     // End of variables declaration//GEN-END:variables
@@ -1102,7 +1197,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
             return;
         }
         
-        String busca = jTextField4.getText().toLowerCase();
+        String busca = txtBuscarPublicadorG.getText().toLowerCase();
         
         if (busca.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Informe um nome para buscar");
