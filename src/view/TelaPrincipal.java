@@ -13,6 +13,7 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Grupo;
+import model.Relatorio;
 
 /**
  *
@@ -24,6 +25,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     
     private String grupoSelecionado;
     private List<Object[]> listaPublicadores = new ArrayList<>();
+    private List<Relatorio> tabelaRelatorio = new ArrayList<>();
    
     /**
      * Creates new form Teste
@@ -108,8 +110,8 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         lblNumeroGrupo = new javax.swing.JLabel();
         lblQuantidadePublicadores = new javax.swing.JLabel();
-        txtBusca = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
+        jTextField4 = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
         btnRemoverPublicador = new javax.swing.JButton();
         btnAdicionarPublicador = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -312,7 +314,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 241, Short.MAX_VALUE)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
@@ -410,7 +412,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(txtEstudos, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(txtHoras, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -453,13 +455,13 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlRelatarLayout.createSequentialGroup()
                         .addGroup(pnlRelatarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(pnlRelatarLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17)))
+                        .addGap(5, 5, 5)))
                 .addContainerGap())
         );
         pnlRelatarLayout.setVerticalGroup(
@@ -487,15 +489,10 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         lblQuantidadePublicadores.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblQuantidadePublicadores.setText("Pessoas");
 
-        txtBusca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnBuscar.setText("Pesquisar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
+        jButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton4.setText("Pesquisar");
 
         btnRemoverPublicador.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnRemoverPublicador.setText("Remover");
@@ -523,9 +520,9 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(lblNumeroGrupo)
                     .addComponent(lblQuantidadePublicadores))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
-                .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnBuscar)
+                .addComponent(jButton4)
                 .addGap(18, 18, 18)
                 .addComponent(btnAdicionarPublicador)
                 .addGap(4, 4, 4)
@@ -543,8 +540,8 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBuscar)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton4)
                             .addComponent(btnRemoverPublicador)
                             .addComponent(btnAdicionarPublicador))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -796,10 +793,6 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         atualizarTabelaPublicadores();
     }//GEN-LAST:event_tblGruposMouseClicked
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        buscarPublicador();
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -827,7 +820,6 @@ public final class TelaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarPublicador;
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCriarGrupo;
     private javax.swing.JButton btnExcluirGrupo;
     private javax.swing.JButton btnRemoverPublicador;
@@ -835,6 +827,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -863,6 +856,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lblContador;
     private javax.swing.JLabel lblDataEntrega;
     private javax.swing.JLabel lblMesAtual;
@@ -880,7 +874,6 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbtSim;
     private javax.swing.JTable tblGrupos;
     private javax.swing.JTable tblPublicadores;
-    private javax.swing.JTextField txtBusca;
     private javax.swing.JTextField txtEstudos;
     private javax.swing.JTextField txtHoras;
     // End of variables declaration//GEN-END:variables
@@ -923,10 +916,6 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         lblDataEntrega.setText(dia + mes);
     }
     
-//    private void mudarCorPainelContador() {
-//        pnlContador.setBackground(Color.RED);
-//    }
-    
     /**
      * RELATAR
      */
@@ -938,6 +927,31 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         } else {
             txtHoras.setEnabled(false);
             txtEstudos.setEnabled(false);
+        }
+    }
+    
+    public void atualizarTabelaConsolidada() {
+
+        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+        model.setRowCount(0);
+
+        for (Object[] p : listaPublicadores) {
+            model.addRow(new Object[]{
+                p[0], // nome
+            });
+        }
+    }
+    
+    public void atualizarTabelaRelatorio() {
+
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+
+        for (Relatorio r : tabelaRelatorio) {
+            model.addRow(new Object[]{
+                r.getNomePublicador(),
+                r.getGrupo(),
+            });
         }
     }
     
@@ -1026,7 +1040,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
             return;
         }
         
-        String busca = txtBusca.getText().toLowerCase();
+        String busca = jTextField4.getText().toLowerCase();
         
         if (busca.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Informe um nome para buscar");
