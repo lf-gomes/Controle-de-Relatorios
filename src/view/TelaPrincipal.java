@@ -779,11 +779,13 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirGrupoActionPerformed
 
     private void btnAdicionarPublicadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarPublicadorActionPerformed
+        
         PublicadorVIEW tela = new PublicadorVIEW(this, grupoSelecionado);
         tela.setVisible(true);
     }//GEN-LAST:event_btnAdicionarPublicadorActionPerformed
 
     private void btnRemoverPublicadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverPublicadorActionPerformed
+        
         int linhaGrupo = tblGrupos.getSelectedRow();
         int linhaPublicador = tblPublicadores.getSelectedRow();
 
@@ -796,13 +798,31 @@ public final class TelaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Selecione um publicador.");
             return;
         }
-
+        
+        String nome = tblPublicadores.getValueAt(linhaPublicador, 0).toString();
+        String grupo = tblGrupos.getValueAt(linhaGrupo, 0).toString();
+        
+        int confirmacao = JOptionPane.showConfirmDialog(
+                null,
+                "Tem certeza que deseja remover:\n " + nome + "?",
+                "Confirmação",
+                JOptionPane.YES_NO_OPTION);
+        
+        if (confirmacao!=JOptionPane.YES_OPTION) {
+            return;
+        }
+        
+        // Remode da lista principal
+        listaPublicadores.removeIf(p -> p[0].equals(nome) && p[3].equals(grupo));
+        
         Grupo g = Grupo.listarGrupos().get(linhaGrupo);
-
-        g.removerPublicador(linhaPublicador);
-
+        
+        // Atualiza todas as tabelas
         atualizarTabelaPublicadores();
         atualizarQuantidadePublicadores();
+        atualizarTabelaPublicadoresGeral();
+        
+        JOptionPane.showMessageDialog(null, "Publicador removido com sucesso.");
     }//GEN-LAST:event_btnRemoverPublicadorActionPerformed
 
     private void tblGruposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGruposMouseClicked
