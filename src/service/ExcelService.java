@@ -1,10 +1,15 @@
 package service;
 
+import java.awt.Component;
+import java.io.File;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.swing.table.DefaultTableModel;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 public class ExcelService {
 
@@ -88,5 +93,29 @@ public class ExcelService {
         } catch (Exception e) {
             throw new RuntimeException("Erro ao gerar Excel: " + e.getMessage());
         }
+    }
+    
+    public static void gerarRelatorioComModelo(File arquivoDestino) throws Exception {
+
+        // Carrega modelo
+        InputStream modelo = ExcelService.class.getResourceAsStream("/resources/modelo_relatorio.xlsx");
+
+        Workbook workbook = new XSSFWorkbook(modelo);
+        Sheet sheet = workbook.getSheetAt(0);
+
+        /** Altera os dados
+         * 
+         * sheet.getRow(linha).getCell(célula).setCellValue(valor_a_ser_inserido);
+         * sheet.getRow(2).getCell(1).setCellValue(8);
+         * sheet.getRow(3).getCell(1).setCellValue(5);
+         * 
+         */
+        
+        // Salva arquivo
+        FileOutputStream fos = new FileOutputStream(arquivoDestino);
+        workbook.write(fos);
+
+        fos.close();
+        workbook.close();
     }
 }

@@ -5,6 +5,7 @@
 package view;
 
 import java.awt.Color;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -898,28 +899,27 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     private void btnSalvarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarExcelActionPerformed
         
         JFileChooser fileChooser = new JFileChooser();
-        
-        fileChooser.setDialogTitle("Salvar Relatório");
-
-        fileChooser.setSelectedFile(new java.io.File("relatorio.xlsx"));
+        fileChooser.setDialogTitle("Salvar relatório");
 
         int userSelection = fileChooser.showSaveDialog(this);
 
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
+        if (userSelection != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
 
-            String caminho = fileChooser.getSelectedFile().getAbsolutePath();
+        File arquivo = fileChooser.getSelectedFile();
 
-            // Garante extensão .xlsx
-            if (!caminho.endsWith(".xlsx")) {
-                caminho += ".xlsx";
-            }
+        if (!arquivo.getName().endsWith(".xlsx")) {
+            arquivo = new File(arquivo.getAbsolutePath() + ".xlsx");
+        }
 
-            try {
-                ExcelService.gerarModelo(caminho);
-                JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso!");
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.getMessage());
-            }
+        try {
+            ExcelService.gerarRelatorioComModelo(arquivo);
+            JOptionPane.showMessageDialog(this, "Relatório salvo com sucesso!");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao gerar relatório: " + e.getMessage());
         }
     }//GEN-LAST:event_btnSalvarExcelActionPerformed
 
