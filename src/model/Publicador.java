@@ -10,11 +10,10 @@ import java.util.List;
  */
 public class Publicador {
     private String nome;
-    private String grupo;
-    private String situacao;
-    private boolean participou;
-    private Pioneiro tipo;
-    private int quantidadeEstudos;
+    private String modalidade;
+    private String ativo;
+    private int quantidaDeEstudos;
+    private int numeroDoGrupo;
     
     private static List<Publicador> listaPublicadores = new ArrayList<>();
     
@@ -22,19 +21,12 @@ public class Publicador {
         //defalt
     }
 
-    public Publicador(
-            String nome,
-            String grupo,
-            String situacao,
-            boolean participou,
-            Pioneiro tipo,
-            int quantidadeEstudos) {
+    public Publicador(String nome, String modalidade, String ativo, int quantidaDeEstudos, int numeroDoGrupo) {
         this.nome = nome;
-        this.grupo = grupo;
-        this.situacao = situacao;
-        this.participou = participou;
-        this.tipo = tipo;
-        this.quantidadeEstudos = quantidadeEstudos;
+        this.modalidade = modalidade;
+        this.ativo = ativo;
+        this.quantidaDeEstudos = quantidaDeEstudos;
+        this.numeroDoGrupo = numeroDoGrupo;
     }
 
     public String getNome() {
@@ -45,53 +37,43 @@ public class Publicador {
         this.nome = nome;
     }
 
-    public String getGrupo() {
-        return grupo;
+    public String getModalidade() {
+        return modalidade;
     }
 
-    public void setGrupo(String grupo) {
-        this.grupo = grupo;
-    }
-    
-    public String getSituacao() {
-        return situacao;
+    public void setModalidade(String modalidade) {
+        this.modalidade = modalidade;
     }
 
-    public void setSituacao(String situacao) {
-        this.situacao = situacao;
+    public String getAtivo() {
+        return ativo;
     }
 
-    public boolean isParticipacao() {
-        return participou;
+    public void setAtivo(String ativo) {
+        this.ativo = ativo;
     }
 
-    public void setParticipacao(boolean participou) {
-        this.participou = participou;
+    public int getNumeroDoGrupo() {
+        return numeroDoGrupo;
     }
 
-    public Pioneiro getTipo() {
-        return tipo;
+    public void setNumeroDoGrupo(int numeroDoGrupo) {
+        this.numeroDoGrupo = numeroDoGrupo;
     }
 
-    public void setTipo(Pioneiro tipo) {
-        this.tipo = tipo;
+    public int getQuantidaDeEstudos() {
+        return quantidaDeEstudos;
     }
 
-    public int getQuantidadeEstudos() {
-        return quantidadeEstudos;
+    public void setQuantidaDeEstudos(int quantidaDeEstudos) {
+        this.quantidaDeEstudos = quantidaDeEstudos;
     }
 
-    public void setQuantidadeEstudos(int quantidadeEstudos) {
-        this.quantidadeEstudos = quantidadeEstudos;
-    }
-    
-    public void cadastrar() {
-        listaPublicadores.add(this); 
-    }
-    
-    public static List<Publicador> listar() {
+    public static List<Publicador> getListaPublicadores() {
         return listaPublicadores;
     }
-    
 
+    public static void setListaPublicadores(List<Publicador> listaPublicadores) {
+        Publicador.listaPublicadores = listaPublicadores;
+    }
 }

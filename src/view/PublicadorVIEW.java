@@ -4,7 +4,9 @@
  */
 package view;
 
+import dao.PublicadorDAO;
 import javax.swing.JOptionPane;
+import model.Publicador;
 
 /**
  *
@@ -193,28 +195,45 @@ public class PublicadorVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        String nomePublicador = txtNomePublicador.getText();
-        String modalidadeServico = cbModalidade.getSelectedItem().toString();
-        String ativo;
-        String grupo = cbGrupo.getSelectedItem().toString();
-        
-        if (cbGrupo.getSelectedItem()==null) {
+        String nomePublicador = txtNomePublicador.getText().trim();
+
+        if (nomePublicador.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Informe o nome do publicador");
+            return;
+        }
+
+        if (cbGrupo.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(this, "Selecione um Grupo");
             return;
         }
-        
-        if (rbtNao.isSelected()) {
-            ativo = "Não";
-        } else {
-            ativo = "Sim";
-        }
-        
-        telaPrincipal.adicionarNaTabela(nomePublicador, modalidadeServico, ativo, grupo);
-        JOptionPane.showMessageDialog(null, "Publicador adicionado com sucesso");
-        
+
+        String modalidadeServico = cbModalidade.getSelectedItem().toString();
+        String grupoTexto = cbGrupo.getSelectedItem().toString();
+
+        int numeroGrupo = Integer.parseInt(grupoTexto.replace("Grupo ", ""));
+
+        String ativo = rbtSim.isSelected() ? "Sim" : "Não";
+
+        Publicador p = new Publicador();
+        p.setNome(nomePublicador);
+        p.setModalidade(modalidadeServico);
+        p.setAtivo(ativo);
+        p.setNumeroDoGrupo(numeroGrupo);
+
+        // Salva no banco
+        PublicadorDAO dao = new PublicadorDAO();
+        dao.salvar(p);
+ 
+        JOptionPane.showMessageDialog(this, "Publicador salvo com sucesso!");
+
+        // Atualiza tela principal
+        telaPrincipal.atualizarTabelaPublicadores();
+        telaPrincipal.atualizarQuantidadePublicadores();
+        telaPrincipal.atualizarTabelaPublicadoresGeral();
+
+        // Limpa campos
         txtNomePublicador.setText("");
         cbModalidade.setSelectedIndex(0);
-        
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

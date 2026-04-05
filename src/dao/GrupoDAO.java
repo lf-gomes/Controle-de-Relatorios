@@ -32,7 +32,17 @@ public class GrupoDAO {
             
             System.out.println("Grupo salvo com sucesso!");
         } catch (Exception e) {
+            
             System.out.println("Erro ao salvar: " + e.getMessage());
+            
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            }
         }
     }
     
@@ -56,7 +66,17 @@ public class GrupoDAO {
             }
             
         } catch (SQLException e) {
-            System.out.println("eRRO AO LISTAR: " + e.getMessage());
+            
+            System.out.println("Erro ao listar: " + e.getMessage());
+            
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            }
         }
         
         return lista;
@@ -74,8 +94,57 @@ public class GrupoDAO {
             System.out.println("Grupo exluído!");
             
         } catch (SQLException e) {
+            
             System.out.println("Erro ao excluir o grupo: " +e.getMessage());
+        
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            }
         }
     }
+    
+    public int contarPublicadores(int numeroGrupo) {
 
+        int quantidade = 0;
+
+        String sql = "SELECT COUNT(*) FROM publicador WHERE numero_grupo = ?";
+
+        try (Connection conn = conexao.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, numeroGrupo);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    quantidade = rs.getInt(1);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao contar publicadores: " + e.getMessage());
+        }
+
+        return quantidade;
+    }
+    
+    public void removerPublicadorDoGrupo(int numeroGrupo, int publicadorId) {
+
+        try (Connection conn = new Conexao().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(
+                 "DELETE FROM grupo_publicador WHERE numero_grupo = ? AND publicador_id = ?")) {
+
+            stmt.setInt(1, numeroGrupo);
+            stmt.setInt(2, publicadorId);
+
+            stmt.execute();
+
+        } catch (SQLException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
 }
