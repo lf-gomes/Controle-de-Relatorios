@@ -168,4 +168,69 @@ public class PublicadorDAO {
         
         return quantidade;
     }
+    
+    public List<Publicador> listarTodos() {
+
+        List<Publicador> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM publicador ORDER BY nome";
+
+        try (Connection conn = conexao.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Publicador p = new Publicador();
+
+                p.setId(rs.getInt("id"));
+                p.setNome(rs.getString("nome"));
+                p.setModalidade(rs.getString("modalidade"));
+                p.setAtivo(rs.getString("ativo"));
+                p.setQuantidaDeEstudos(rs.getInt("qunatidade_estudo"));
+                p.setNumeroDoGrupo(rs.getInt("numero_grupo"));
+
+                lista.add(p);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao listar publicadores: " + e.getMessage());
+        }
+
+        return lista;
+    }
+    
+    public int buscarIdPorNome(String nome) {
+        
+        String sql = "SELECT id FROM publicador WHERE nome = ?";
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = new Conexao().getConnection();
+            stmt = con.prepareStatement(sql);
+
+            stmt.setString(1, nome);
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar ID do publicador: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            }
+        }
+
+        return -1; // não encontrado
+    }
 }

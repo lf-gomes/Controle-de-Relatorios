@@ -18,6 +18,7 @@ import model.Grupo;
 import model.Relatorio;
 import dao.GrupoDAO;
 import dao.PublicadorDAO;
+import dao.RelatorioDAO;
 import model.Publicador;
 import service.ExcelService;
 
@@ -48,6 +49,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         //Painel Grupos
         atualizarTabelaGrupos();
         atualizarQuantidadePublicadores();
+        atualizarTabelaPublicadoresGeral();
         
         tblGrupos.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -66,6 +68,18 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                 atualizarNumeroGrupo();
                 atualizarTabelaPublicadores();
                 atualizarQuantidadePublicadores();
+            }
+        });
+        
+        tblPublicadorGeral.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+
+                int linha = tblPublicadorGeral.getSelectedRow();
+
+                if (linha != -1) {
+                    String nome = tblPublicadorGeral.getValueAt(linha, 0).toString();
+                    lblNomePublicador.setText(nome);
+                }
             }
         });
     }
@@ -94,13 +108,13 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblRelatorio = new javax.swing.JTable();
         btnSalvarExcel = new javax.swing.JButton();
         pnlRelatar = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
+        lblNomePublicador = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblPublicadorGeral = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
@@ -243,8 +257,8 @@ public final class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblRelatorio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblRelatorio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"Publicadores - Qunatidade", null},
                 {"Publicadores - Relatando", null},
@@ -268,8 +282,8 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jTable2.setRowHeight(30);
-        jScrollPane2.setViewportView(jTable2);
+        tblRelatorio.setRowHeight(30);
+        jScrollPane2.setViewportView(tblRelatorio);
 
         btnSalvarExcel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSalvarExcel.setText("Salvar no Excel");
@@ -324,8 +338,8 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton2.setText("Perquisar");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setText("[Nome do publicador]");
+        lblNomePublicador.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblNomePublicador.setText("[Nome do publicador]");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -333,8 +347,8 @@ public final class TelaPrincipal extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 241, Short.MAX_VALUE)
+                .addComponent(lblNomePublicador)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
@@ -347,10 +361,11 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2)
-                    .addComponent(jLabel6))
+                    .addComponent(lblNomePublicador))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        tblPublicadorGeral.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblPublicadorGeral.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -374,6 +389,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblPublicadorGeral.setRowHeight(30);
         jScrollPane3.setViewportView(tblPublicadorGeral);
         if (tblPublicadorGeral.getColumnModel().getColumnCount() > 0) {
             tblPublicadorGeral.getColumnModel().getColumn(0).setResizable(false);
@@ -432,7 +448,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(txtEstudos, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(txtHoras, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(97, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -765,16 +781,42 @@ public final class TelaPrincipal extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
-        if (!rbtSim.isSelected() && !rbtNao.isSelected()) {
-            JOptionPane.showMessageDialog(null, "Imforme se o publicadou participou em alguma modalidade este mês");
+        int linha = tblPublicadorGeral.getSelectedRow();
+
+        if (linha == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um publicador");
             return;
         }
-        if (
-                cbxModalidade.getSelectedItem()=="Pioneiro Auxiliar" ||
-                cbxModalidade.getSelectedItem()=="Pioneiro Rgular") {
-            txtHoras.setEnabled(true);
-            txtEstudos.setEnabled(true);
+
+        String nome = tblPublicadorGeral.getValueAt(linha, 0).toString();
+
+        String participou = rbtSim.isSelected() ? "Sim" : "Não";
+
+        String modalidade = cbxModalidade.getSelectedItem().toString();
+
+        int horas = 0;
+        int estudos = 0;
+
+        try {
+            if (txtHoras.isEnabled()) {
+                horas = Integer.parseInt(txtHoras.getText());
+            }
+
+            estudos = Integer.parseInt(txtEstudos.getText());
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Informe valores válidos");
+            return;
         }
+
+        PublicadorDAO pdao = new PublicadorDAO();
+        int idPublicador = pdao.buscarIdPorNome(nome);
+
+        RelatorioDAO rdao = new RelatorioDAO();
+        rdao.salvar(idPublicador, participou, modalidade, horas, estudos);
+
+        JOptionPane.showMessageDialog(null, "Relatório salvo com sucesso!");
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void txtEstudosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstudosActionPerformed
@@ -982,7 +1024,6 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -1004,11 +1045,11 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblContador;
     private javax.swing.JLabel lblDataEntrega;
     private javax.swing.JLabel lblMesAtual;
+    private javax.swing.JLabel lblNomePublicador;
     private javax.swing.JLabel lblNumeroGrupo;
     private javax.swing.JLabel lblQuantidadePublicadores;
     private javax.swing.JMenu mnArquivo;
@@ -1024,6 +1065,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTable tblGrupos;
     private javax.swing.JTable tblPublicadorGeral;
     private javax.swing.JTable tblPublicadores;
+    private javax.swing.JTable tblRelatorio;
     private javax.swing.JTextField txtBuscarPublicadorG;
     private javax.swing.JTextField txtEstudos;
     private javax.swing.JTextField txtHoras;
@@ -1095,7 +1137,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     
     public void atualizarTabelaRelatorio() {
 
-        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        DefaultTableModel model = (DefaultTableModel) tblRelatorio.getModel();
         model.setRowCount(0);
 
         for (Relatorio r : tabelaRelatorio) {
@@ -1107,21 +1149,24 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     }
     
     public void atualizarTabelaPublicadoresGeral() {
+
         DefaultTableModel model = (DefaultTableModel) tblPublicadorGeral.getModel();
-        model.setRowCount(0); // limpa as linhas
-        
-        for (Object[] p : listaPublicadores) {
+        model.setRowCount(0);
+
+        PublicadorDAO dao = new PublicadorDAO();
+        List<Publicador> lista = dao.listarTodos();
+
+        for (Publicador p : lista) {
             model.addRow(new Object[]{
-                p[0] // somente o nome
+                p.getNome()
             });
-            
         }
     }
     
     /**
      * GRUPOS
      */
-    private void atualizarTabelaGrupos() {
+    public void atualizarTabelaGrupos() {
         DefaultTableModel model = (DefaultTableModel) tblGrupos.getModel();
         model.setRowCount(0); //Limpa a tabela
         
@@ -1173,7 +1218,6 @@ public final class TelaPrincipal extends javax.swing.JFrame {
             int quantidade = dao.contarPublicadores(numeroGrupo);
 
             lblQuantidadePublicadores.setText(quantidade + " Pessoas");
-            System.out.println("Valor enviado para DAO: " + numeroGrupo);
 
         } else {
             lblQuantidadePublicadores.setText("0 Pessoas");
@@ -1230,27 +1274,32 @@ public final class TelaPrincipal extends javax.swing.JFrame {
             return;
         }
 
-        String busca = txtBuscarPublicadorG.getText().trim().toLowerCase();
+        String busca = txtBuscarPublicadorG.getText().trim();
 
         if (busca.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Informe um nome para buscar");
+            atualizarTabelaPublicadores();
             return;
         }
 
-        int numeroGrupo = Integer.parseInt(grupoSelecionado.replace("Grupo ", ""));
+        int numeroGrupo;
+        try {
+            numeroGrupo = Integer.parseInt(grupoSelecionado.replace("Grupo ", "").trim());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao identificar o grupo");
+            return;
+        }
 
         PublicadorDAO dao = new PublicadorDAO();
         List<Publicador> lista = dao.buscarPorNomeEGrupo(busca, numeroGrupo);
-
-        DefaultTableModel model = (DefaultTableModel) tblPublicadores.getModel();
-        model.setRowCount(0); // limpa tabela
 
         if (lista.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Publicador não encontrado neste grupo");
             return;
         }
 
-        // Preenche tabela com resultado da busca
+        DefaultTableModel model = (DefaultTableModel) tblPublicadores.getModel();
+        model.setRowCount(0);
+
         for (Publicador p : lista) {
             model.addRow(new Object[]{
                 p.getNome(),

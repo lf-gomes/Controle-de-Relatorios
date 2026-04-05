@@ -9,6 +9,7 @@ import java.util.List;
  * @author Gomes
  */
 public class Publicador {
+    private int id;
     private String nome;
     private String modalidade;
     private String ativo;
@@ -21,7 +22,14 @@ public class Publicador {
         //defalt
     }
 
-    public Publicador(String nome, String modalidade, String ativo, int quantidaDeEstudos, int numeroDoGrupo) {
+    public Publicador(
+            int id,
+            String nome,
+            String modalidade,
+            String ativo,
+            int quantidaDeEstudos,
+            int numeroDoGrupo) {
+        this.id = id;
         this.nome = nome;
         this.modalidade = modalidade;
         this.ativo = ativo;
@@ -29,6 +37,15 @@ public class Publicador {
         this.numeroDoGrupo = numeroDoGrupo;
     }
 
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getNome() {
         return nome;
     }
