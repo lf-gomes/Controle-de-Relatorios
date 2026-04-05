@@ -12,7 +12,7 @@ import  java.sql.SQLException;
 public class Conexao {
     
     private final String DRIVER = "com.mysql.jdbc.Driver";
-    private final String URL = "jdbc:mysql:/localhost:3306/ControleDeRelatorio";
+    private final String URL = "jdbc:mysql://localhost:3306/ControleDeRelatorio";
     private final String USER = "root";
     private final String PASS = "152839";
     
