@@ -48,6 +48,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         
         //Painel Grupos
         atualizarTabelaGrupos();
+        atualizarTabelaRelatorio();
         atualizarQuantidadePublicadores();
         atualizarTabelaPublicadoresGeral();
         
@@ -72,16 +73,57 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         });
         
         tblPublicadorGeral.getSelectionModel().addListSelectionListener(e -> {
+            
             if (!e.getValueIsAdjusting()) {
-
+                
                 int linha = tblPublicadorGeral.getSelectedRow();
 
                 if (linha != -1) {
                     String nome = tblPublicadorGeral.getValueAt(linha, 0).toString();
                     lblNomePublicador.setText(nome);
+                    habilitarCamposRelatar(true);
                 }
             }
         });
+        
+        // Liberar txtHora
+        cbModalidade.addActionListener(e -> {
+
+            Object selected = cbModalidade.getSelectedItem();
+
+            if (selected == null) {
+                txtHoras.setEnabled(false);
+                return;
+            }
+
+            String modalidade = selected.toString();
+
+            if (!modalidade.equalsIgnoreCase("Publicador")) {
+                txtHoras.setEnabled(true);
+            } else {
+                txtHoras.setEnabled(false);
+                txtHoras.setText("");
+            }
+        });
+        
+        tblRelatorio.setModel(new DefaultTableModel(
+            new Object[][]{
+                {"Publicadores - Quantidade", null},
+                {"Publicadores - Relatando", null},
+                {"Publicadores - Estudos", null},
+                {"Pioneiro Auxiliar - Quantidade", null},
+                {"Pioneiro Auxiliar - Estudos", null},
+                {"Pioneiro Regular - Quantidade", null},
+                {"Pioneiro Regular - Estudos", null},
+                {"Total de Estudos", null}
+            },
+            new String[]{"Modalidade", "Quantidade"}
+        ));
+        
+        java.awt.EventQueue.invokeLater(() -> {
+            atualizarTabelaRelatorio();
+        });
+        
     }
     
     
@@ -119,12 +161,12 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         tblPublicadorGeral = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        rbtSim = new javax.swing.JRadioButton();
-        rbtNao = new javax.swing.JRadioButton();
+        rbSim = new javax.swing.JRadioButton();
+        rbNao = new javax.swing.JRadioButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        cbxModalidade = new javax.swing.JComboBox<>();
+        cbModalidade = new javax.swing.JComboBox<>();
         txtHoras = new javax.swing.JTextField();
         txtEstudos = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
@@ -400,11 +442,11 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Participou da pregação este mês:");
 
-        rbtSim.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rbtSim.setText("Sim");
+        rbSim.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rbSim.setText("Sim");
 
-        rbtNao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rbtNao.setText("Não");
+        rbNao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rbNao.setText("Não");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setText("Modalidade:");
@@ -415,8 +457,8 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setText("Estudos:");
 
-        cbxModalidade.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbxModalidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Publicador", "Pioneiro Auxiliar", "Pioneiro Regular", "Pioneiro Especial" }));
+        cbModalidade.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbModalidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Publicador", "Pioneiro Auxiliar", "Pioneiro Regular", "Pioneiro Especial" }));
 
         txtHoras.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -441,10 +483,10 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(rbtSim)
+                        .addComponent(rbSim)
                         .addGap(29, 29, 29)
-                        .addComponent(rbtNao))
-                    .addComponent(cbxModalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rbNao))
+                    .addComponent(cbModalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(txtEstudos, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(txtHoras, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -455,13 +497,13 @@ public final class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbtSim)
-                    .addComponent(rbtNao)
+                    .addComponent(rbSim)
+                    .addComponent(rbNao)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(cbxModalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbModalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtHoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -790,9 +832,23 @@ public final class TelaPrincipal extends javax.swing.JFrame {
 
         String nome = tblPublicadorGeral.getValueAt(linha, 0).toString();
 
-        String participou = rbtSim.isSelected() ? "Sim" : "Não";
+        // participou
+        String participou;
+        if (rbSim.isSelected()) {
+            participou = "Sim";
+        } else if (rbNao.isSelected()) {
+            participou = "Não";
+        } else {
+            JOptionPane.showMessageDialog(null, "Informe se participou");
+            return;
+        }
 
-        String modalidade = cbxModalidade.getSelectedItem().toString();
+        // modalidade
+        if (cbModalidade.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Selecione a modalidade");
+            return;
+        }
+        String modalidade = cbModalidade.getSelectedItem().toString();
 
         int horas = 0;
         int estudos = 0;
@@ -802,21 +858,38 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                 horas = Integer.parseInt(txtHoras.getText());
             }
 
+            if (txtEstudos.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Informe os estudos");
+                return;
+            }
+
             estudos = Integer.parseInt(txtEstudos.getText());
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Informe valores válidos");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Informe valores numéricos válidos");
             return;
         }
 
+        // buscar ID
         PublicadorDAO pdao = new PublicadorDAO();
         int idPublicador = pdao.buscarIdPorNome(nome);
 
-        RelatorioDAO rdao = new RelatorioDAO();
-        rdao.salvar(idPublicador, participou, modalidade, horas, estudos);
+        if (idPublicador == 0) {
+            JOptionPane.showMessageDialog(null, "Erro ao encontrar o publicador");
+            return;
+        }
 
-        JOptionPane.showMessageDialog(null, "Relatório salvo com sucesso!");
-        
+        // salvar
+        RelatorioDAO rdao = new RelatorioDAO();
+        boolean sucesso = rdao.salvar(idPublicador, participou, modalidade, horas, estudos);
+
+        if (sucesso) {
+            atualizarTabelaRelatorio();
+            limparCampos();
+            JOptionPane.showMessageDialog(null, "Relatório salvo com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao salvar no banco");
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void txtEstudosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstudosActionPerformed
@@ -1016,7 +1089,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnExcluirGrupo;
     private javax.swing.JButton btnRemoverPublicador;
     private javax.swing.JButton btnSalvarExcel;
-    private javax.swing.JComboBox<String> cbxModalidade;
+    private javax.swing.JComboBox<String> cbModalidade;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -1060,8 +1133,8 @@ public final class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel pnlGrupos;
     private javax.swing.JPanel pnlRelatar;
     private javax.swing.JPanel pnlRelatorio;
-    private javax.swing.JRadioButton rbtNao;
-    private javax.swing.JRadioButton rbtSim;
+    private javax.swing.JRadioButton rbNao;
+    private javax.swing.JRadioButton rbSim;
     private javax.swing.JTable tblGrupos;
     private javax.swing.JTable tblPublicadorGeral;
     private javax.swing.JTable tblPublicadores;
@@ -1113,7 +1186,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
      * RELATAR
      */
     public void habilitarCaixa() {
-        String escolha = cbxModalidade.getSelectedItem().toString();
+        String escolha = cbModalidade.getSelectedItem().toString();
         if (escolha.contains("Pioneiro")) {
             txtHoras.setEnabled(true);
             txtEstudos.setEnabled(true);
@@ -1135,17 +1208,25 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         }
     }
     
-    public void atualizarTabelaRelatorio() {
+    
+    /**
+     * CORAÇÃO DO SISTEMA
+     */
+    private void atualizarTabelaRelatorio() {
+
+        RelatorioDAO dao = new RelatorioDAO();
+        Object[] dados = dao.gerarResumo();
 
         DefaultTableModel model = (DefaultTableModel) tblRelatorio.getModel();
-        model.setRowCount(0);
 
-        for (Relatorio r : tabelaRelatorio) {
-            model.addRow(new Object[]{
-                r.getNomePublicador(),
-                r.getGrupo(),
-            });
-        }
+        model.setValueAt(dados[0], 0, 1); // Publicadores - Quantidade
+        model.setValueAt(dados[1], 1, 1); // Publicadores - Relatando
+        model.setValueAt(dados[2], 2, 1); // Publicadores - Estudos
+        model.setValueAt(dados[3], 3, 1); // Auxiliar - Quantidade
+        model.setValueAt(dados[4], 4, 1); // Auxiliar - Estudos
+        model.setValueAt(dados[5], 5, 1); // Regular - Quantidade
+        model.setValueAt(dados[6], 6, 1); // Regular - Estudos
+        model.setValueAt(dados[7], 7, 1); // Total
     }
     
     public void atualizarTabelaPublicadoresGeral() {
@@ -1307,5 +1388,56 @@ public final class TelaPrincipal extends javax.swing.JFrame {
                 p.getAtivo()
             });
         }
+    }
+    
+    private void habilitarCamposRelatar(boolean ativo) {
+        rbSim.setEnabled(ativo);
+        rbNao.setEnabled(ativo);
+        cbModalidade.setEnabled(ativo);
+        txtEstudos.setEnabled(ativo);
+
+        // txtHoras começa desabilitado
+        txtHoras.setEnabled(false);
+    }
+    
+    private boolean validarCampos() {
+
+        if (tblPublicadorGeral.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um publicador.");
+            return false;
+        }
+
+        if (!rbSim.isSelected() && !rbNao.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Informe se participou.");
+            return false;
+        }
+
+        if (cbModalidade.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Selecione a modalidade.");
+            return false;
+        }
+
+        if (txtEstudos.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Informe os estudos.");
+            return false;
+        }
+
+        // Se horas estiver habilitado, então é obrigatório
+        if (txtHoras.isEnabled() && txtHoras.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Informe as horas.");
+            return false;
+        }
+
+        return true;
+    }
+    
+    private void limparCampos() {
+        rbSim.setSelected(false);
+        rbNao.setSelected(false);
+        cbModalidade.setSelectedItem(0);
+        txtHoras.setText("");
+        txtEstudos.setText("");
+
+        txtHoras.setEnabled(false);
     }
 }

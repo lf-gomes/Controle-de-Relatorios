@@ -186,7 +186,7 @@ public class PublicadorDAO {
                 p.setNome(rs.getString("nome"));
                 p.setModalidade(rs.getString("modalidade"));
                 p.setAtivo(rs.getString("ativo"));
-                p.setQuantidaDeEstudos(rs.getInt("qunatidade_estudo"));
+                p.setQuantidaDeEstudos(rs.getInt("quantidade_estudo"));
                 p.setNumeroDoGrupo(rs.getInt("numero_grupo"));
 
                 lista.add(p);

@@ -9,7 +9,7 @@ public class Relatorio {
     private String nomePublicador;
     private String grupo;
     private String mes;
-    private int PublicadoresQunatidade;
+    private int PublicadoresQuantidade;
     private int PublicadoresRelatando;
     private int PublicadoresEstudos;
     private int PioneiroAuxiliarQuantidade;	
@@ -18,10 +18,10 @@ public class Relatorio {
     private int PioneiroRegularEstudos;
     private int TotaldeEstudos;
 
-    public Relatorio(String nomePublicador, String grupo, int PublicadoresQunatidade, int PublicadoresRelatando, int PublicadoresEstudos, int PioneiroAuxiliarQuantidade, int PioneiroAuxiliarEstudos, int PioneiroRegularQuantidade, int PioneiroRegularEstudos, int TotaldeEstudos, String mes) {
+    public Relatorio(String nomePublicador, String grupo, int PublicadoresQuantidade, int PublicadoresRelatando, int PublicadoresEstudos, int PioneiroAuxiliarQuantidade, int PioneiroAuxiliarEstudos, int PioneiroRegularQuantidade, int PioneiroRegularEstudos, int TotaldeEstudos, String mes) {
         this.nomePublicador = nomePublicador;
         this.grupo = grupo;
-        this.PublicadoresQunatidade = PublicadoresQunatidade;
+        this.PublicadoresQuantidade = PublicadoresQuantidade;
         this.PublicadoresRelatando = PublicadoresRelatando;
         this.PublicadoresEstudos = PublicadoresEstudos;
         this.PioneiroAuxiliarQuantidade = PioneiroAuxiliarQuantidade;
@@ -48,12 +48,12 @@ public class Relatorio {
         this.grupo = grupo;
     }
 
-    public int getPublicadoresQunatidade() {
-        return PublicadoresQunatidade;
+    public int getPublicadoresQuantidade() {
+        return PublicadoresQuantidade;
     }
 
-    public void setPublicadoresQunatidade(int PublicadoresQunatidade) {
-        this.PublicadoresQunatidade = PublicadoresQunatidade;
+    public void setPublicadoresQuantidade(int PublicadoresQuantidade) {
+        this.PublicadoresQuantidade = PublicadoresQuantidade;
     }
 
     public int getPublicadoresRelatando() {

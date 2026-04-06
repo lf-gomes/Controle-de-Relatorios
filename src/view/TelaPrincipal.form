@@ -578,11 +578,11 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="rbtSim" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rbSim" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                                  <Component id="rbtNao" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rbNao" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="cbxModalidade" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbModalidade" min="-2" max="-2" attributes="0"/>
                               <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="txtEstudos" alignment="0" max="32767" attributes="0"/>
                                   <Component id="txtHoras" alignment="0" min="-2" pref="89" max="-2" attributes="0"/>
@@ -597,14 +597,14 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="rbtSim" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rbtNao" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rbSim" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rbNao" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cbxModalidade" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbModalidade" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -630,7 +630,7 @@
                     <Property name="text" type="java.lang.String" value="Participou da prega&#xe7;&#xe3;o este m&#xea;s:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rbtSim">
+                <Component class="javax.swing.JRadioButton" name="rbSim">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="0"/>
@@ -638,7 +638,7 @@
                     <Property name="text" type="java.lang.String" value="Sim"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rbtNao">
+                <Component class="javax.swing.JRadioButton" name="rbNao">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="0"/>
@@ -670,7 +670,7 @@
                     <Property name="text" type="java.lang.String" value="Estudos:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="cbxModalidade">
+                <Component class="javax.swing.JComboBox" name="cbModalidade">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="0"/>
